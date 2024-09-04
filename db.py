@@ -1,6 +1,6 @@
 import pymysql
 
-def dame_conexion():
+def establecer_conexion():
     return pymysql.connect(
         host='localhost',
         user='root',
@@ -9,14 +9,14 @@ def dame_conexion():
     )
 
 def insertar_articulo(nombre, precio):
-    conexion = dame_conexion()
+    conexion = establecer_conexion()
     with conexion.cursor() as cursor:
         cursor.execute("INSERT INTO articulos(nombre, precio) VALUES (%s, %s)", (nombre, precio))
         conexion.commit()
         conexion.close()
 
 def listar_articulos():
-    conexion = dame_conexion()
+    conexion = establecer_conexion()
     articulos = []
     with conexion.cursor() as cursor:
         cursor.execute("SELECT id, nombre, precio FROM articulos")
@@ -25,13 +25,30 @@ def listar_articulos():
         return articulos
 
 def eliminar_articulo(id):
-    conexion = dame_conexion()
+    conexion = establecer_conexion()
     with conexion.cursor() as cursor:
         cursor.execute("DELETE FROM articulos WHERE id = %s", (id))
         conexion.commit()
         conexion.close()
         
-if __name__ == '__main__':
-    # dame_conexion()
-    articulos = listar_articulos()
-    print(articulos)
+def obtener_articulo(id):
+    conexion = establecer_conexion()
+    articulo = None
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT id, nombre, precio FROM articulos WHERE id = %s", (id))
+        articulo = cursor.fetchone()
+        conexion.close()
+        return articulo
+
+def actualizar_articulo(id, nombre, precio):
+    conexion = establecer_conexion()
+    with conexion.cursor() as cursor:
+        cursor.execute("UPDATE articulos SET nombre = %s, precio = %s WHERE id = %s", (nombre, precio, id))
+        conexion.commit()
+        conexion.close()
+        
+
+# if __name__ == '__main__':
+#     establecer_conexion()
+#     articulos = listar_articulos()
+#     print(articulos)
