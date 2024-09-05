@@ -46,9 +46,7 @@ def actualizar_articulo(id, nombre, precio):
         cursor.execute("UPDATE articulos SET nombre = %s, precio = %s WHERE id = %s", (nombre, precio, id))
         conexion.commit()
         conexion.close()
-        
 
 # if __name__ == '__main__':
-#     establecer_conexion()
-#     articulos = listar_articulos()
-#     print(articulos)
+#     alta_usuario('jluna@mail.com', 'password')
+#     print(obtener_usuario('jluna@mail.com')[1])
