@@ -11,8 +11,12 @@ def agregar_articulo():
 def guardar_articulo():
     nombre = request.form['nombre']
     precio = request.form['precio']
-    db.insertar_articulo(nombre, precio)
-    return redirect('/articulos')
+    try:
+        db.insertar_articulo(nombre, precio)
+    except Exception as e:
+        print(f'Ha ocurrido un error al insertar el articulo: {e}')
+    finally:
+        return redirect('/articulos')
 
 @app.route('/')
 @app.route('/articulos')

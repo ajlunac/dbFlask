@@ -9,11 +9,14 @@ def establecer_conexion():
     )
 
 def insertar_articulo(nombre, precio):
-    conexion = establecer_conexion()
-    with conexion.cursor() as cursor:
-        cursor.execute("INSERT INTO articulos(nombre, precio) VALUES (%s, %s)", (nombre, precio))
-        conexion.commit()
-        conexion.close()
+    try:
+        conexion = establecer_conexion()
+        with conexion.cursor() as cursor:
+            cursor.execute("INSERT INTO articulos(nombre, precio) VALUES (%s, %s)", (nombre, precio))
+            conexion.commit()
+            conexion.close()
+    except Exception as e:
+        print(f'Error al conectar a la base de datos: {e}')
 
 def listar_articulos():
     conexion = establecer_conexion()
